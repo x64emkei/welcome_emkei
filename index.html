@@ -143,26 +143,6 @@
             flex-direction: column;
         }
         
-        @media (max-width: 767px) {
-            body {
-                padding: 0;
-                align-items: flex-start; /* Don't center on mobile */
-            }
-            .site-container {
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-            }
-            #page-wrapper {
-                margin: 0;
-                border-radius: 0;
-                flex-grow: 1;
-            }
-            .global-top-bar, .global-footer {
-                border-radius: 0;
-            }
-        }
-        
         @media (min-width: 768px) {
             .main-container {
                 flex-direction: row;
@@ -441,6 +421,45 @@
             margin: 5px;
         }
 
+        /* Mobile Nav */
+        .mobile-nav {
+            display: none; /* Hidden on desktop */
+        }
+        
+        @media (max-width: 767px) {
+            body { 
+                padding: 0;
+                padding-bottom: 60px; /* Space for nav bar */
+            }
+            .sidebar { display: none; }
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-darkest);
+                border-top: 1px solid var(--border-light);
+                z-index: 100;
+            }
+            .mobile-nav .nav-button {
+                flex-grow: 1;
+                border: none;
+                border-right: 1px solid var(--border-light);
+                font-size: 0.7rem;
+                padding: 10px 5px;
+                border-radius: 0;
+                background: var(--bg-darkest);
+            }
+            .mobile-nav .nav-button:last-child {
+                border-right: none;
+            }
+            .mobile-nav .nav-button.active {
+                background: var(--accent-primary);
+                color: var(--bg-darkest);
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -468,7 +487,7 @@
         <div class="main-container">
             <aside class="sidebar">
                 <div class="sidebar-logo-container">
-                    <img src="x64.png" alt="Logo" class="sidebar-logo" onerror="this.onerror=null;this.src='https://placehold.co/100x40/020c1b/64ffda?text=emkei_x64';">
+                    <img src="x64.png" alt="Logo" class="sidebar-logo" onerror="this.onerror=null;this.src='https://placehold.co/180x75/020c1b/64ffda?text=emkei_x64';">
                 </div>
                 <hr class="sidebar-divider">
                 <nav class="nav-buttons-container">
@@ -587,6 +606,14 @@
                 </a>
             </div>
         </div>
+        
+        <nav class="mobile-nav">
+            <div class="nav-button active" data-target="about">About</div>
+            <div class="nav-button" data-target="connect">Connect</div>
+            <div class="nav-button" data-target="repositories">Repos</div>
+            <div class="nav-button" data-target="certifications">Certs</div>
+            <div class="nav-button" data-target="spotify">Music</div>
+        </nav>
     </div>
 
     <script>
@@ -643,24 +670,32 @@
         const navButtons = document.querySelectorAll('.nav-button');
         const widgets = document.querySelectorAll('.main-content .widget');
 
+        function switchContent(targetId) {
+            // Hide all widgets
+            widgets.forEach(widget => {
+                widget.classList.add('hidden');
+            });
+
+            // Show the target widget
+            const targetWidget = document.getElementById(targetId);
+            if (targetWidget) {
+                targetWidget.classList.remove('hidden');
+            }
+
+            // Update active state for all nav buttons
+            navButtons.forEach(btn => {
+                if (btn.dataset.target === targetId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
         navButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const targetId = button.dataset.target;
-
-                // Hide all widgets
-                widgets.forEach(widget => {
-                    widget.classList.add('hidden');
-                });
-
-                // Show the target widget
-                const targetWidget = document.getElementById(targetId);
-                if (targetWidget) {
-                    targetWidget.classList.remove('hidden');
-                }
-
-                // Update active state for buttons
-                navButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
+                switchContent(targetId);
             });
         });
 
