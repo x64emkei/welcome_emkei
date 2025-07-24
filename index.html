@@ -19,7 +19,6 @@
             --text-dark: #8892b0;
             --border-light: #233554;
             --border-dark: #020c1b;
-            --button-shadow: #061324;
         }
 
         body {
@@ -87,7 +86,7 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 960px; /* Enlarged */
+            max-width: 960px;
             margin: 0 auto;
             background-color: var(--bg-dark);
             box-shadow: 0 10px 50px rgba(0, 128, 128, 0.2), 0 0 0 1px var(--border-light);
@@ -118,24 +117,22 @@
             color: var(--text-dark);
             margin-bottom: 20px;
         }
+        .made-with-line {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-primary);
+        }
+        .made-with-line svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
 
         /* Main container */
         .main-container {
             display: flex;
             flex-direction: column;
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 0;
-            }
-            #page-wrapper {
-                margin: 0;
-                border-radius: 0;
-            }
-            .global-top-bar, .global-footer {
-                border-radius: 0;
-            }
         }
         
         @media (min-width: 768px) {
@@ -147,7 +144,7 @@
         /* Sidebar */
         .sidebar {
             background-color: var(--bg-dark);
-            padding: 20px 0; /* Adjusted padding */
+            padding: 20px;
             border-bottom: 1px solid var(--border-light);
         }
         @media (min-width: 768px) {
@@ -160,7 +157,7 @@
         }
         
         .sidebar-logo-container {
-            padding: 0 20px 15px 20px;
+            padding-bottom: 15px;
             text-align: center;
         }
         .sidebar-logo {
@@ -176,12 +173,14 @@
         .nav-buttons-container {
             display: flex;
             flex-direction: column;
-            flex-grow: 1; /* Pushes audio controls down */
+            flex-grow: 1;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
         }
         #audio-controls {
             text-align: center;
             margin-top: 20px;
-            padding: 0 20px;
         }
         #audio-controls button {
             background-color: var(--bg-medium);
@@ -230,29 +229,28 @@
         }
 
 
-        /* 3D Navigation Buttons */
+        /* Navigation Buttons */
         .nav-button {
             display: block;
             width: 100%;
             padding: 12px 20px;
-            background: linear-gradient(to bottom, #173b60, #132f4c);
+            background: var(--bg-dark);
             color: var(--text-light);
             text-decoration: none;
             text-align: center;
             font-weight: 500;
             border: none;
-            border-top: 1px solid var(--border-light);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+            border-bottom: 1px solid var(--border-light);
             transition: all 0.2s ease-in-out;
             position: relative;
             box-sizing: border-box;
             cursor: pointer;
         }
-        .nav-buttons-container .nav-button:first-child {
-            border-top: none;
+        .nav-buttons-container .nav-button:last-child {
+            border-bottom: none;
         }
         .nav-button:hover {
-            background: linear-gradient(to bottom, #1c4670, #173b60);
+            background: var(--bg-medium);
             color: var(--accent-secondary);
         }
         .nav-button.active {
@@ -385,6 +383,9 @@
             transform: scale(1.05);
         }
         .cert-badge img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
             border: 1px solid var(--border-light);
             padding: 10px;
             background: var(--bg-darkest);
@@ -409,6 +410,36 @@
             margin: 5px;
         }
 
+        /* Mobile Nav */
+        .mobile-nav {
+            display: none; /* Hidden on desktop */
+        }
+        
+        @media (max-width: 767px) {
+            body { padding: 0 0 60px 0; } /* Add padding to bottom for nav bar */
+            .sidebar { display: none; }
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-darkest);
+                border-top: 1px solid var(--border-light);
+                z-index: 100;
+            }
+            .mobile-nav .nav-button {
+                flex-grow: 1;
+                border: none;
+                border-right: 1px solid var(--border-light);
+                font-size: 0.8rem;
+                padding: 10px 5px;
+            }
+            .mobile-nav .nav-button:last-child {
+                border-right: none;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -417,7 +448,7 @@
         <div class="loader"></div>
     </div>
 
-    <div id="page-wrapper" class="hidden">
+    <div class="site-container hidden" id="page-wrapper">
         
         <!-- Audio element -->
         <audio id="background-audio" loop>
@@ -532,9 +563,18 @@
         
         <div class="global-footer">
             <div class="footer-copyright">
-                2025 (c) emkei_x64 (Michael Ordenes)<br>
+                2025 &copy; emkei_x64 (Michael Ordenes)<br>
                 All Rights Reserved<br>
-                <span style="color: var(--accent-primary);">MADE WITH AI - HTML - CSS - JS - THE RIGHT WAY</span>
+                <div class="made-with-line">
+                    <span>MADE WITH AI</span>
+                    <!-- HTML5 Icon -->
+                    <svg viewBox="0 0 128 128"><path fill="#E34F26" d="M10.9,0h106.1l-10.1,114.3l-42.9,12.2l-43-12.2L10.9,0z"/><path fill="#F16529" d="M64,12.2v105.4l36.2-10.3L109.3,12.2H64z"/><path fill="#EBEBEB" d="M64,26.7H39.3l1.7,19.5H64V26.7z M38.2,50.8l2.3,26.1l23.5,6.3v20.4l-36.2-9.8l-2.5-27.9L22,34.1h42V50.8z"/><path fill="#FFF" d="M64,26.7v19.5h26.3l-2.5,28.4l-23.8,6.3v20.4l36.2-9.8l5-55.8H64z"/></svg>
+                    <!-- CSS3 Icon -->
+                    <svg viewBox="0 0 128 128"><path fill="#1572B6" d="M10.9,0h106.1l-10.1,114.3l-42.9,12.2l-43-12.2L10.9,0z"/><path fill="#33A9DC" d="M64,12.2v105.4l36.2-10.3L109.3,12.2H64z"/><path fill="#EBEBEB" d="M38.2,50.8l2.3,26.1l23.5,6.3v20.4l-36.2-9.8l-2.5-27.9L22,34.1h42V50.8z"/><path fill="#FFF" d="M64,50.8v19.5h23.8l-2.2,24.3l-21.6,5.8v20.4l36.2-9.8l3.6-40.2H64z M89.4,34.1l1.7-19.5H64v19.5H89.4z"/></svg>
+                    <!-- JS Icon -->
+                    <svg viewBox="0 0 128 128"><path fill="#F7DF1E" d="M0,0h128v128H0V0z"/><path d="M111.2,98.5c-1.1,4.2-3.3,7.9-6.9,10.6c-4.4,3.3-9.9,5-16.5,5c-7.1,0-12.6-1.9-16.4-5.6 c-3.8-3.7-5.8-8.8-5.8-15.2c0-6.4,2.1-11.7,6.2-15.8c4.1-4.1,9.6-6.2,16.6-6.2c6.5,0,11.5,1.8,15.1,5.4 c3.6,3.6,5.6,8.2,5.6,13.9c0,1.8-0.2,3.4-0.5,4.8h-31.9c0.3,4.1,2.1,7.2,5.4,9.3c3.3,2.1,7.1,3.2,11.5,3.2 c4.8,0,8.8-1.1,12.1-3.4c3.3-2.3,5.4-5.5,6.4-9.6H111.2z M109.1,84.9c-0.3-3.6-1.9-6.5-4.8-8.6c-2.9-2.1-6.5-3.2-10.8-3.2 c-4.5,0-8.2,1.2-10.9,3.6c-2.7,2.4-4.2,5.8-4.5,10.1h31V84.9z"/><path d="M49.8,114.1c-4.6,0-8.5-1.1-11.6-3.4c-3.1-2.3-5.1-5.4-6-9.4H49c0.2,2.3,1.1,4.1,2.7,5.3 c1.6,1.2,3.6,1.8,6.1,1.8c2.8,0,5-0.7,6.6-2.2c1.6-1.5,2.4-3.5,2.4-6.1c0-2.4-0.7-4.4-2.2-5.9c-1.5-1.5-3.8-2.3-6.8-2.3h-4.2 v-11.3h4c3.3,0,5.8-0.7,7.5-2.2c1.7-1.5,2.5-3.5,2.5-6c0-2.4-0.8-4.3-2.3-5.7c-1.5-1.4-3.6-2.1-6.2-2.1c-2.2,0-4,0.6-5.4,1.8 c-1.4,1.2-2.3,2.9-2.6,5.1h-16.8c0.3-4.4,2.4-8,6.2-10.8c3.8-2.8,8.6-4.2,14.4-4.2c6.1,0,11.2,1.6,15.1,4.8 c3.9,3.2,5.9,7.5,5.9,12.9c0,4.1-1.3,7.5-3.8,10.1c-2.5,2.6-5.9,4.2-10.1,4.8v0.5c4.8,0.5,8.7,2.3,11.7,5.4 c3,3.1,4.5,7.1,4.5,12.1c0,5.7-2.1,10.3-6.2,13.7C61.4,112.4,56.1,114.1,49.8,114.1z"/></svg>
+                    - THE RIGHT WAY
+                </div>
             </div>
             <div class="retro-buttons-container">
                 <a href="https://matias.me/nsfw/" target="_blank">
