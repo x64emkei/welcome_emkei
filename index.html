@@ -28,9 +28,8 @@
             color: var(--text-light);
             margin: 0;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: grid; /* Use grid for robust centering */
+            place-items: center;
             min-height: 100vh;
             box-sizing: border-box;
         }
@@ -197,9 +196,7 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
-            border-radius: 6px;
-            overflow: hidden;
-            border: 1px solid var(--border-light);
+            margin: 0 -20px; /* Stretch to edges */
         }
         #audio-controls {
             text-align: center;
@@ -275,14 +272,17 @@
             text-align: center;
             font-weight: 500;
             border: none;
-            border-bottom: 1px solid var(--border-light);
+            border-top: 1px solid var(--border-light);
             transition: all 0.2s ease-in-out;
             position: relative;
             box-sizing: border-box;
             cursor: pointer;
         }
+        .nav-buttons-container .nav-button:first-child {
+             border-top: 1px solid var(--border-light);
+        }
         .nav-buttons-container .nav-button:last-child {
-            border-bottom: none;
+            border-bottom: 1px solid var(--border-light);
         }
         .nav-button:hover {
             background: var(--bg-medium);
@@ -355,6 +355,17 @@
         .position-details p {
             margin: 2px 0;
         }
+        .position-title {
+            font-weight: bold;
+            color: var(--text-light);
+        }
+        .position-subtext {
+             font-size: 0.9rem;
+             color: var(--text-dark);
+        }
+        .position-subtext-italic {
+            font-style: italic;
+        }
         .position-tag {
             background-color: rgba(0, 128, 128, 0.1);
             border: 1px solid var(--accent-primary);
@@ -363,7 +374,8 @@
             color: var(--accent-secondary);
             font-weight: bold;
             font-size: 0.7rem;
-            margin-left: 8px;
+            display: inline-block;
+            margin-bottom: 8px;
         }
         .position-tag.former {
             background-color: rgba(136, 146, 176, 0.1);
@@ -492,6 +504,10 @@
         .mobile-nav {
             display: none; /* Hidden on desktop */
         }
+        .mobile-logo {
+            display: none;
+            height: 30px;
+        }
         
         @media (max-width: 767px) {
             body { 
@@ -513,7 +529,17 @@
             .global-top-bar, .global-footer {
                 border-radius: 0;
             }
+            .global-top-bar {
+                flex-wrap: wrap;
+            }
+            .top-bar-right {
+                flex-basis: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
             .sidebar { display: none; }
+            .mobile-logo { display: block; }
             .mobile-nav {
                 display: flex;
                 position: fixed;
@@ -572,10 +598,13 @@
         </audio>
 
         <div class="global-top-bar">
-            <div id="time-date"></div>
-            <div class="marquee">
-                <div class="marquee-content">
-                    Welcome to the homepage of emkei_x64... Exploring the intersection of retro aesthetics and modern technology...
+            <img src="x64.png" alt="Logo" class="mobile-logo" onerror="this.onerror=null;this.src='https://placehold.co/80x30/020c1b/64ffda?text=emkei_x64';">
+            <div class="top-bar-right">
+                <div id="time-date"></div>
+                <div class="marquee">
+                    <div class="marquee-content">
+                        Welcome to the homepage of emkei_x64... Exploring the intersection of retro aesthetics and modern technology...
+                    </div>
                 </div>
             </div>
         </div>
@@ -610,43 +639,50 @@
                         </p>
                     </div>
                     <hr class="info-divider">
+                    <h2 class="widget-title">Leadership Roles</h2>
                     <div class="position-details">
                         <svg class="position-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h8V3a1 1 0 112 0v1h1a2 2 0 012 2v11a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h1V3a1 1 0 011-1zm11 6H4v9h12V8zm-4 3a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
                         <div>
-                            <p>Public Relations Officer for CS <span class="position-tag">CURRENT POSITION</span></p>
-                            <p>DECS-ACOES-CCSS</p>
-                            <p>Laguna College of Business and Arts</p>
+                            <div><span class="position-tag">CURRENT POSITION</span></div>
+                            <p class="position-title">Public Relations Officer for CS</p>
+                            <p class="position-subtext">DECS-CCSS [2025-26]</p>
+                            <p class="position-subtext position-subtext-italic">Laguna College of Business and Arts</p>
                         </div>
                     </div>
                     <div class="position-details">
                         <svg class="position-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
                         <div>
-                            <p>1st Year Representative <span class="position-tag former">FORMER</span></p>
-                            <p>DECS-ACOES-CCSS</p>
+                            <div><span class="position-tag former">FORMER</span></div>
+                            <p class="position-title">1st Year Representative</p>
+                            <p class="position-subtext">DECS-CCSS [2024-25]</p>
+                            <p class="position-subtext position-subtext-italic">Laguna College of Business and Arts</p>
                         </div>
                     </div>
                     <div class="position-details">
                         <svg class="position-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
                         <div>
-                            <p>Layout Artist & Founding Member <span class="position-tag former">FORMER</span></p>
-                            <p>SVCC SHS Creative Team</p>
-                            <p>St. Vincent College of Cabuyao</p>
+                            <div><span class="position-tag former">FORMER</span></div>
+                            <p class="position-title">Layout Artist & Founding Member</p>
+                            <p class="position-subtext">SVCC SHS Creative Team</p>
+                            <p class="position-subtext position-subtext-italic">St. Vincent College of Cabuyao</p>
                         </div>
                     </div>
                     <div class="position-details">
                         <svg class="position-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
                         <div>
-                            <p>Class Public Information Officer <span class="position-tag former">FORMER</span></p>
-                            <p>Grade 12 - STEM [2023-24]</p>
-                            <p>St. Vincent College of Cabuyao</p>
+                            <div><span class="position-tag former">FORMER</span></div>
+                            <p class="position-title">Class Public Information Officer</p>
+                            <p class="position-subtext">Grade 12 - STEM [2023-24]</p>
+                            <p class="position-subtext position-subtext-italic">St. Vincent College of Cabuyao</p>
                         </div>
                     </div>
                     <div class="position-details">
                         <svg class="position-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
                         <div>
-                            <p>Class Vice President <span class="position-tag former">FORMER</span></p>
-                            <p>Grade 11 - STEM [2022-23]</p>
-                            <p>St. Vincent College of Cabuyao</p>
+                            <div><span class="position-tag former">FORMER</span></div>
+                            <p class="position-title">Class Vice President</p>
+                            <p class="position-subtext">Grade 11 - STEM [2022-23]</p>
+                            <p class="position-subtext position-subtext-italic">St. Vincent College of Cabuyao</p>
                         </div>
                     </div>
                 </section>
@@ -717,7 +753,12 @@
 
                     <section class="widget hidden" id="spotify">
                         <h2 class="widget-title">Music</h2>
-                        <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        <div class="spotify-container">
+                            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/35gMauDVPL4aqhbZpb2DDa?si=cd435d682b544cf8" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/35gMauDVPL4aqhbZpb2DDa?si=cd435d682b544cf8" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0XllVuG03NrBRjTI0joI1f?si=f4613c8fa2414361" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3HsaYshmf8NCQGT6ntpfHK?si=8e2e467554434d9f" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        </div>
                     </section>
                     
                 </main>
