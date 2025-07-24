@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>emkei_x64's Homepage - Retro Futura Edition</title>
+    <title>emkei_x64's Homepage</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -197,6 +197,7 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
+            margin: 0 -20px; /* Stretch to edges */
         }
         #audio-controls {
             text-align: center;
@@ -240,11 +241,11 @@
         
         #time-date {
             font-size: 0.8rem;
-            color: var(--text-dark);
+            color: var(--text-light);
             white-space: nowrap;
         }
         .marquee {
-            color: var(--accent-primary);
+            color: var(--accent-secondary);
             flex-grow: 1;
             text-align: right;
             overflow: hidden;
