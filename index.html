@@ -3,19 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>emkei_x64's Homepage - Modern Edition</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>emkei_x64's Homepage - Retro Futura Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Modern Soft Style */
+        /* Modern-Retro WebTV Style */
+        :root {
+            --bg-darkest: #020c1b;
+            --bg-dark: #0a192f;
+            --bg-medium: #132f4c;
+            --accent-primary: #008080; /* Teal */
+            --accent-secondary: #64ffda; /* Lighter Teal for highlights */
+            --text-light: #ccd6f6;
+            --text-dark: #8892b0;
+            --border-light: #233554;
+            --border-dark: #020c1b;
+            --button-shadow: #061324;
+        }
+
         body {
-            font-family: 'Inter', sans-serif; /* Modern font */
-            background-color: #111827; /* Dark Slate Blue background */
-            color: #d1d5db; /* Gray-300 for text */
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-darkest);
+            color: var(--text-light);
             margin: 0;
-            padding: 0;
+            padding: 20px;
+            perspective: 1500px;
         }
 
         .hidden {
@@ -29,31 +42,30 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #111827;
+            background-color: var(--bg-darkest);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
+            transition: opacity 0.5s ease-out;
         }
         
         .loader {
           --s: 25px;
           --g :5px;  
-          
           width: calc(3*(1.353*var(--s) + var(--g)));
           display: grid;
           justify-items: end;
           aspect-ratio: 3;
           overflow: hidden;
           --_m: linear-gradient(90deg,#0000,#000 15px calc(100% - 15px),#0000);
-          -webkit-mask: var(--_m);
-                  mask: var(--_m);
+          -webkit-mask: var(--_m); mask: var(--_m);
         }
         .loader:before {  
           content: "";
           width: 200%;
           background:
-            linear-gradient(90deg,#ff1818 50%,#0000 0),
+            linear-gradient(90deg,var(--accent-primary) 50%,#0000 0),
             conic-gradient(from -90deg at var(--s) calc(0.353*var(--s)),
               #fff 135deg,#666 0 270deg,#aaa 0);  
           background-blend-mode: multiply;
@@ -61,166 +73,179 @@
             linear-gradient(to bottom right,
               #0000 calc(0.25*var(--s)),#000 0 calc(100% - calc(0.25*var(--s)) - 1.414*var(--g)),#0000 0),
             conic-gradient(from -90deg at right var(--g) bottom var(--g),#000 90deg,#0000 0);
-          -webkit-mask: var(--_m);
-                  mask: var(--_m);
+          -webkit-mask: var(--_m); mask: var(--_m);
           background-size:   calc(100%/3) 100%, calc(100%/6) 100%;
-          -webkit-mask-size: calc(100%/6) 100%;
-                  mask-size: calc(100%/6) 100%;
-          -webkit-mask-composite: source-in;
-                  mask-composite: intersect;
+          -webkit-mask-size: calc(100%/6) 100%; mask-size: calc(100%/6) 100%;
+          -webkit-mask-composite: source-in; mask-composite: intersect;
           animation: l10 1s infinite linear;
         }
         @keyframes l10 {
           to {transform:translate(calc(100%/3))}
         }
 
-        .webtv-container {
+        /* Marquee */
+        .marquee {
+            background-color: #000;
+            color: var(--accent-secondary);
+            padding: 5px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .marquee-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 30s linear infinite;
+        }
+        @keyframes marquee {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Main container */
+        .main-container {
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
             width: 100%;
-            max-width: 800px; /* Max-width for larger screens */
+            max-width: 900px;
             margin: 0 auto;
-            background: #1f2937; /* Gray-800 */
-            border-left: 1px solid #374151; /* Gray-700 */
-            border-right: 1px solid #374151; /* Gray-700 */
+            background-color: var(--bg-dark);
+            box-shadow: 0 10px 50px rgba(0, 128, 128, 0.2), 0 0 0 1px var(--border-light);
+            border-radius: 8px;
         }
-
-        /* --- Header --- */
-        .webtv-header {
-            background: #1f2937;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #374151; /* Gray-700 */
+        
+        @media (max-width: 768px) {
+            body {
+                perspective: none;
+                padding: 0;
+            }
+            .main-container {
+                margin: 0;
+                border-radius: 0;
+            }
         }
-
-        .webtv-logo {
-            color: #fff;
-            padding: 5px 15px;
-            font-weight: 700;
-            font-size: 1.5rem;
-            text-shadow: none;
-        }
-
-        .webtv-time {
-            color: #9ca3af; /* Gray-400 */
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        /* --- Main Content --- */
-        .webtv-main {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
+        
         @media (min-width: 768px) {
-            .webtv-main {
+            .main-container {
                 flex-direction: row;
             }
         }
 
-        /* --- Sidebar Navigation --- */
-        .webtv-sidebar {
-            background-color: #1f2937;
-            border-bottom: 1px solid #374151;
-            flex-shrink: 0;
-        }
-        
-        @media (min-width: 768px) {
-            .webtv-sidebar {
-                width: 180px;
-                border-right: 1px solid #374151;
-                border-bottom: none;
-            }
-        }
-
-        .webtv-sidebar-title {
-            color: #60a5fa; /* Soft Blue */
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            padding: 20px 0;
-            writing-mode: horizontal-tb;
-            transform: none;
-        }
-        
-        @media (min-width: 768px) {
-            .webtv-sidebar-title {
-                writing-mode: vertical-rl;
-                transform: rotate(180deg);
-                padding: 0 20px;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-
-        .webtv-nav {
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--bg-darkest);
+            padding: 20px;
+            border-bottom: 1px solid var(--border-light);
+            border-radius: 8px 8px 0 0;
             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 10px 0;
+            flex-direction: column;
         }
-
         @media (min-width: 768px) {
-            .webtv-nav {
-                flex-direction: column;
-                padding: 20px 0;
+            .sidebar {
+                width: 220px;
+                flex-shrink: 0;
+                border-right: 1px solid var(--border-light);
+                border-bottom: none;
+                border-radius: 8px 0 0 8px;
             }
         }
-
-        .nav-button {
-            background-color: transparent;
-            color: #9ca3af; /* Gray-400 */
-            text-decoration: none;
-            padding: 10px 15px;
-            margin: 5px;
-            border: 1px solid transparent;
-            border-radius: 8px;
-            font-weight: 500;
-            text-align: center;
-            transition: all 0.2s;
-        }
-
-        .nav-button:hover {
-            background-color: #374151; /* Gray-700 */
-            color: #fff;
-        }
         
-        .nav-button.active {
-             background-color: #2563eb; /* Blue-600 */
-             color: #fff;
+        .sidebar-logo-container {
+            padding-bottom: 15px;
+            text-align: center;
+        }
+        .sidebar-logo {
+            max-width: 100px;
+            opacity: 0.7;
+        }
+        .sidebar-divider {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-light);
+            margin: 0 0 20px 0;
+        }
+        .nav-buttons-container {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Pushes audio controls down */
+        }
+        #audio-controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #audio-controls button {
+            background-color: var(--bg-medium);
+            border: 1px solid var(--border-light);
+            color: var(--text-light);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
         }
 
-        /* --- Content Area --- */
-        .webtv-content {
+        /* Main Content */
+        .main-content {
             padding: 20px;
             flex-grow: 1;
         }
-
-        .webtv-widget {
-            background-color: #111827; /* Darker background for widgets */
-            border: 1px solid #374151; /* Gray-700 */
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
+        @media (min-width: 768px) {
+            .main-content {
+                padding: 30px;
+            }
         }
 
-        .webtv-widget-title {
-            color: #e5e7eb; /* Gray-200 */
-            font-size: 1.2rem;
+        /* 3D Navigation Buttons */
+        .nav-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px; /* Explicitly set margin for spacing */
+            background: linear-gradient(to bottom, #173b60, #132f4c);
+            color: var(--text-light);
+            text-decoration: none;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            box-shadow: 0 4px 0 var(--button-shadow);
+            transition: all 0.1s ease-in-out;
+            position: relative;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+        .nav-buttons-container a:last-child {
+            margin-bottom: 0; /* Remove margin from last button */
+        }
+        .nav-button:hover {
+            background: linear-gradient(to bottom, #1c4670, #173b60);
+            color: var(--accent-secondary);
+        }
+        .nav-button:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 var(--button-shadow);
+        }
+
+
+        /* Widget Styles */
+        .widget {
+            margin-bottom: 30px;
+        }
+        .widget-title {
+            font-size: 1.5rem;
             font-weight: 700;
-            margin: 0 0 15px 0;
+            color: var(--text-light);
+            margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #374151;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
         }
-        
+        .widget-title::before {
+            content: '>';
+            margin-right: 10px;
+            color: var(--accent-primary);
+        }
+
+        /* Profile Section */
         .profile-section {
             display: flex;
             flex-direction: column;
@@ -229,127 +254,125 @@
         }
         @media (min-width: 640px) {
             .profile-section {
-               flex-direction: row;
-               text-align: left;
+                flex-direction: row;
             }
         }
         .profile-pic {
             width: 120px;
             height: 120px;
-            border: 3px solid #374151;
-            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--accent-primary);
+            padding: 3px;
+            background-color: #000;
             flex-shrink: 0;
-            border-radius: 50%; /* Circular profile pic */
         }
-        .bio {
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-        
-        .contact-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
+        .profile-section p {
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        .contact-buttons .nav-button {
-             border: 1px solid #374151;
-        }
-        
-        .repo-list .repo {
-            background-color: #1f2937;
-            padding: 12px;
-            margin-bottom: 10px;
-            border: 1px solid #374151;
-            border-radius: 6px;
-            transition: background-color 0.2s;
-        }
-        .repo-list .repo:hover {
-            background-color: #374151;
-        }
-        .repo-list .repo a {
-            color: #60a5fa; /* Soft Blue */
-            font-weight: 500;
-            text-decoration: none;
-        }
-        .repo-list .repo a:hover {
-            text-decoration: underline;
-        }
-        .repo-list .repo p {
-            font-size: 0.85rem;
-            color: #9ca3af;
-            margin-top: 6px;
-        }
-        
-        .cert-container {
+        /* Connect Buttons */
+        .connect-buttons {
             display: flex;
+            flex-wrap: wrap;
             gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
         }
-        .cert-badge {
-            background-color: #1f2937;
-            border: 1px solid #374151;
-            padding: 15px;
-            width: 150px;
-            text-align: center;
-            border-radius: 6px;
+        .connect-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background-color: transparent;
+            color: var(--accent-secondary);
+            border: 1px solid var(--accent-primary);
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
         }
-        .cert-badge img {
-            max-width: 80px;
-            margin-bottom: 10px;
-            filter: grayscale(1) brightness(1.5);
+        .connect-button:hover {
+            background-color: rgba(0, 128, 128, 0.1);
+            box-shadow: 0 0 10px rgba(0, 128, 128, 0.5);
         }
-        .cert-badge p {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #d1d5db;
+        .connect-button svg {
+            width: 20px;
+            height: 20px;
         }
-
-        .spotify-container {
+        
+        /* Repo Boxes */
+        .repo-container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 15px;
         }
-        @media (min-width: 640px) {
-            .spotify-container {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
+        .repo-box {
+            background-color: var(--bg-medium);
+            border: 1px solid var(--border-light);
+            padding: 20px;
+            border-radius: 6px;
+            transition: all 0.2s ease-in-out;
         }
-
-
-        /* --- Footer --- */
-        .webtv-footer {
-            background: #1f2937;
-            color: #9ca3af;
-            padding: 15px;
-            text-align: center;
-            font-weight: 400;
+        .repo-box:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-primary);
+        }
+        .repo-box h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+        }
+        .repo-box h3 a {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        .repo-box h3 a:hover {
+            color: var(--accent-secondary);
+        }
+        .repo-box p {
+            color: var(--text-dark);
             font-size: 0.9rem;
-            border-top: 1px solid #374151;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin: 0;
         }
-        
-        #audio-controls button {
-            background: none;
-            border: 1px solid #4b5563;
-            color: #9ca3af;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
+
+        /* Certifications */
+        .cert-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            transition: all 0.2s;
+            gap: 20px;
+            flex-wrap: wrap;
         }
-        #audio-controls button:hover {
-            background-color: #374151;
-            color: #fff;
+        .cert-badge {
+            text-align: center;
         }
+        .cert-badge img {
+            border: 1px solid var(--border-light);
+            padding: 10px;
+            background: var(--bg-darkest);
+        }
+        .cert-badge p {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--text-dark);
+        }
+
+        /* Footer Content Widget */
+        .page-footer-content {
+            text-align: center;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            color: var(--text-dark);
+        }
+        
+        .retro-buttons-container {
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .retro-buttons-container > * {
+            margin: 5px; /* Replaced gap with margin for better compatibility */
+        }
+
     </style>
 </head>
 <body>
@@ -358,205 +381,160 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Audio element -->
-    <audio id="background-audio" loop>
-        <!-- IMPORTANT: Replace this with the actual path to your audio file -->
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <div id="page-wrapper" class="hidden">
+        <!-- Marquee -->
+        <div class="marquee">
+            <div class="marquee-content">
+                Welcome to the homepage of emkei_x64... Exploring the intersection of retro aesthetics and modern technology... Now loading... Please stand by...
+            </div>
+        </div>
 
-    <div class="webtv-container hidden" id="main-content">
-        <!-- Header -->
-        <header class="webtv-header">
-            <div class="webtv-logo">emkei_x64</div>
-            <div class="webtv-time" id="current-time"></div>
-        </header>
+        <!-- Audio element -->
+        <audio id="background-audio" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
 
-        <!-- Main Body -->
-        <div class="webtv-main">
-            <!-- Sidebar -->
-            <aside class="webtv-sidebar">
-                <nav class="webtv-nav">
-                    <div class="webtv-sidebar-title">Home</div>
-                    <a href="#about" class="nav-button active">About</a>
+        <div class="main-container">
+            <aside class="sidebar">
+                <div class="sidebar-logo-container">
+                    <img src="https://placehold.co/100x40/020c1b/64ffda?text=emkei_x64" alt="Logo" class="sidebar-logo">
+                </div>
+                <hr class="sidebar-divider">
+                <nav class="nav-buttons-container">
+                    <a href="#about" class="nav-button">About</a>
                     <a href="#connect" class="nav-button">Connect</a>
-                    <a href="#repositories" class="nav-button">Repos</a>
-                    <a href="#certifications" class="nav-button">Certs</a>
+                    <a href="#repositories" class="nav-button">Repositories</a>
+                    <a href="#certifications" class="nav-button">Certifications</a>
                     <a href="#spotify" class="nav-button">Music</a>
                 </nav>
+                 <div id="audio-controls">
+                    <button id="play-pause-btn">▶</button>
+                </div>
             </aside>
-
-            <!-- Content -->
-            <main class="webtv-content">
+            
+            <main class="main-content">
                 <!-- About Me Widget -->
-                <section class="webtv-widget" id="about">
-                    <h2 class="webtv-widget-title">About Me</h2>
+                <section class="widget" id="about">
+                    <h2 class="widget-title">About Me</h2>
                     <div class="profile-section">
-                        <img src="https://placehold.co/150x150/1f2937/d1d5db?text=M" alt="Profile Picture" class="profile-pic" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/d1d5db?text=M';">
-                        <div>
-                            <p class="bio">
-                                I'm currently pursuing a Bachelor of Science in Computer Science at Laguna College of Business and Arts.
-                                I’m a creative by nature, a student leader by responsibility, and a developer in progress. I believe that when used thoughtfully, technology can help solve real problems and make meaningful changes.
-                                I’m always looking for ways to balance creativity with logic. I enjoy working with others, contributing to projects, and taking on different roles — whether it's planning, building, or communicating ideas clearly.
-                            </p>
-                        </div>
+                        <img src="https://placehold.co/120x120/0a192f/64ffda?text=M" alt="Profile Picture" class="profile-pic">
+                        <p>
+                            I'm currently pursuing a Bachelor of Science in Computer Science at Laguna College of Business and Arts.
+                            I’m a creative by nature, a student leader by responsibility, and a developer in progress. I believe that when used thoughtfully, technology can help solve real problems and make meaningful changes.
+                        </p>
                     </div>
                 </section>
 
                 <!-- Connect Widget -->
-                <section class="webtv-widget" id="connect">
-                    <h2 class="webtv-widget-title">Connect</h2>
-                    <div class="contact-buttons">
-                        <a href="https://www.facebook.com/mikeordenes1" class="nav-button">Facebook</a>
-                        <a href="https://www.linkedin.com/in/michael-ordenes/" class="nav-button">LinkedIn</a>
-                        <a href="https://github.com/x64emkei" class="nav-button">GitHub</a>
-                        <a href="mailto:mkordenes.88@gmail.com" class="nav-button">Email</a>
+                <section class="widget" id="connect">
+                    <h2 class="widget-title">Connect</h2>
+                    <div class="connect-buttons">
+                        <a href="https://www.facebook.com/mikeordenes1" class="connect-button" target="_blank">
+                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                            Facebook
+                        </a>
+                        <a href="https://www.linkedin.com/in/michael-ordenes/" class="connect-button" target="_blank">
+                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            LinkedIn
+                        </a>
+                        <a href="https://github.com/x64emkei" class="connect-button" target="_blank">
+                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            GitHub
+                        </a>
                     </div>
                 </section>
 
                 <!-- Repositories Widget -->
-                <section class="webtv-widget" id="repositories">
-                    <h2 class="webtv-widget-title">My Repositories</h2>
-                    <div class="repo-list">
-                        <div class="repo">
-                            <a href="https://github.com/x64emkei/ASUS-VivoBook-X507UAR-opencore-hackintosh" target="_blank">ASUS X507UAR Hackintosh</a>
+                <section class="widget" id="repositories">
+                    <h2 class="widget-title">Repositories</h2>
+                    <div class="repo-container">
+                        <div class="repo-box">
+                            <h3><a href="#" target="_blank">ASUS X507UAR Hackintosh</a></h3>
                             <p>Run macOS on non-Apple hardware (of course).</p>
                         </div>
-                        <div class="repo">
-                            <a href="https://x64emkei.github.io/LCBA_pvmocv25/" target="_blank">LCBA PVMOCV Infosite</a>
+                        <div class="repo-box">
+                            <h3><a href="#" target="_blank">LCBA PVMOCV Infosite</a></h3>
                             <p>Interactive online tool to remember LCBA PVMOCV.</p>
                         </div>
-                        <div class="repo">
-                            <a href="#" target="_blank">Modern-Homepage</a>
+                         <div class="repo-box">
+                            <h3><a href="#" target="_blank">Retro-Futura Homepage</a></h3>
                             <p>The code for this very landing page. Built with love and nostalgia.</p>
                         </div>
                     </div>
                 </section>
 
                 <!-- Certifications Widget -->
-                <section class="webtv-widget" id="certifications">
-                    <h2 class="webtv-widget-title">Certifications</h2>
+                <section class="widget" id="certifications">
+                    <h2 class="widget-title">Certifications</h2>
                     <div class="cert-container">
                         <div class="cert-badge">
-                            <img src="https://placehold.co/100x100/111827/9ca3af?text=SS" alt="Certified Six Sigma White Belt Badge" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/9ca3af?text=SS';">
-                            <p>SIX SIGMA WHITE BELT</p>
+                            <img src="https://placehold.co/120x120/0a192f/8892b0?text=Six+Sigma" alt="Six Sigma Badge">
+                            <p>Certified Six Sigma White Belt</p>
                         </div>
                         <div class="cert-badge">
-                            <img src="https://placehold.co/100x100/111827/9ca3af?text=EF" alt="EF SET C1 Advanced Badge" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/9ca3af?text=EF';">
-                            <p>EF SET C1 ADVANCED</p>
+                            <img src="https://placehold.co/120x120/0a192f/8892b0?text=EF+SET" alt="EF SET Badge">
+                            <p>EF SET C1 Advanced</p>
                         </div>
                     </div>
                 </section>
 
                 <!-- Spotify Widget -->
-                <section class="webtv-widget" id="spotify">
-                    <h2 class="webtv-widget-title">My Playlists</h2>
-                    <div class="spotify-container">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DWXRqgorJj26U?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <section class="widget" id="spotify">
+                    <h2 class="widget-title">Music</h2>
+                    <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </section>
+                
+                <!-- Footer Content Widget -->
+                <section class="widget">
+                    <div class="page-footer-content">
+                        2025 (c) emkei_x64 (Michael Ordenes)<br>
+                        All Rights Reserved<br>
+                        <span style="color: var(--accent-primary);">MADE WITH AI - HTML - CSS - JS - THE RIGHT WAY</span>
                     </div>
                 </section>
             </main>
         </div>
-
-        <!-- Footer -->
-        <footer class="webtv-footer">
-            <span>&copy; 2024 Mike Ordenes</span>
-            <div id="audio-controls">
-                <button id="play-pause-btn">
-                    <!-- Play Icon -->
-                    <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
-                    </svg>
-                    <!-- Pause Icon (hidden by default) -->
-                    <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause-fill hidden" viewBox="0 0 16 16">
-                        <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
-                    </svg>
-                </button>
-            </div>
-        </footer>
+        
+        <!-- Retro Buttons -->
+        <div class="retro-buttons-container">
+            <a href="https://matias.me/nsfw/" target="_blank">
+                <img src="https://cyber.dabamos.de/88x31/no.gif" alt="NSFW Link">
+            </a>
+            <img src="https://cyber.dabamos.de/88x31/hicolor.gif" alt="Best viewed in Hi-Colors">
+            <img src="https://cyber.dabamos.de/88x31/noteoth2.gif" alt="Made with Notepad">
+        </div>
     </div>
 
     <script>
         // --- Loader ---
-        // Use DOMContentLoaded which is more reliable than 'load'
-        document.addEventListener('DOMContentLoaded', () => {
-            const loader = document.getElementById('loader-overlay');
-            const mainContent = document.getElementById('main-content');
-            
-            setTimeout(() => {
-                loader.classList.add('hidden');
-                mainContent.classList.remove('hidden');
-            }, 3000); // 3-second delay
-        });
-
-        // Set current time
-        function updateTime() {
-            const timeEl = document.getElementById('current-time');
-            if (timeEl) {
-                const now = new Date();
-                const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-                timeEl.textContent = now.toLocaleDateString('en-US', options);
-            }
-        }
-        updateTime();
-        setInterval(updateTime, 60000); // Update every minute
-
-        // Active nav button on scroll
-        const navButtons = document.querySelectorAll('.nav-button');
-        const sections = document.querySelectorAll('.webtv-widget');
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.4
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    navButtons.forEach(button => {
-                        button.classList.remove('active');
-                        if (button.getAttribute('href').substring(1) === entry.target.id) {
-                            button.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }, observerOptions);
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+        const loader = document.getElementById('loader-overlay');
+        const pageWrapper = document.getElementById('page-wrapper');
         
-        // Smooth scroll for anchor links
-        navButtons.forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+        setTimeout(() => {
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }
+            if (pageWrapper) {
+                pageWrapper.classList.remove('hidden');
+            }
+        }, 3000);
 
         // --- Audio Controls ---
         const audio = document.getElementById('background-audio');
         const playPauseBtn = document.getElementById('play-pause-btn');
-        const playIcon = document.getElementById('play-icon');
-        const pauseIcon = document.getElementById('pause-icon');
 
         playPauseBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
-                playIcon.classList.add('hidden');
-                pauseIcon.classList.remove('hidden');
+                playPauseBtn.textContent = '❚❚';
             } else {
                 audio.pause();
-                playIcon.classList.remove('hidden');
-                pauseIcon.classList.add('hidden');
+                playPauseBtn.textContent = '▶';
             }
         });
-
     </script>
 </body>
 </html>
