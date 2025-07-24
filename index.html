@@ -35,24 +35,36 @@
         }
 
         .hidden {
-            display: none;
+            display: none !important;
+        }
+        
+        .fade-out {
+            opacity: 0;
         }
 
         /* Loader Styles */
         #loader-overlay {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--bg-darkest);
+            background-color: var(--bg-dark);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             transition: opacity 0.5s ease-out;
+            border-radius: 8px;
         }
         
+        .loader-logo {
+            max-width: 180px;
+            opacity: 1;
+            margin-bottom: 20px;
+        }
+
         .loader {
           --s: 25px;
           --g :5px;  
@@ -85,11 +97,19 @@
         @keyframes l10 {
           to {transform:translate(calc(100%/3))}
         }
+        
+        .loader-text {
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            margin-top: 20px;
+            font-style: italic;
+        }
 
         /* New Page Structure */
         .site-container {
             width: 100%;
             max-width: 960px;
+            position: relative; /* For loader positioning */
         }
         #page-wrapper {
             display: flex;
@@ -430,6 +450,21 @@
             body { 
                 padding: 0;
                 padding-bottom: 60px; /* Space for nav bar */
+                align-items: stretch;
+            }
+            .site-container {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            #page-wrapper {
+                margin: 0;
+                border-radius: 0;
+                flex-grow: 1;
+                box-shadow: none;
+            }
+            .global-top-bar, .global-footer {
+                border-radius: 0;
             }
             .sidebar { display: none; }
             .mobile-nav {
@@ -463,147 +498,151 @@
     </style>
 </head>
 <body>
-    <!-- Loader -->
-    <div id="loader-overlay">
-        <div class="loader"></div>
-    </div>
-
-    <div class="site-container hidden" id="page-wrapper">
-        
-        <!-- Audio element -->
-        <audio id="background-audio" loop>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        </audio>
-
-        <div class="global-top-bar">
-            <div id="time-date"></div>
-            <div class="marquee">
-                <div class="marquee-content">
-                    Welcome to the homepage of emkei_x64... Exploring the intersection of retro aesthetics and modern technology...
-                </div>
-            </div>
+    <div class="site-container">
+        <!-- Loader -->
+        <div id="loader-overlay">
+            <img src="x64.png" alt="Logo" class="loader-logo" onerror="this.onerror=null;this.src='https://placehold.co/180x75/020c1b/64ffda?text=emkei_x64';">
+            <div class="loader"></div>
+            <p class="loader-text">connecting to your fiber network (perhaps)...</p>
         </div>
 
-        <div class="main-container">
-            <aside class="sidebar">
-                <div class="sidebar-logo-container">
-                    <img src="x64.png" alt="Logo" class="sidebar-logo" onerror="this.onerror=null;this.src='https://placehold.co/180x75/020c1b/64ffda?text=emkei_x64';">
-                </div>
-                <hr class="sidebar-divider">
-                <nav class="nav-buttons-container">
-                    <div class="nav-button active" data-target="about">About</div>
-                    <div class="nav-button" data-target="connect">Connect</div>
-                    <div class="nav-button" data-target="repositories">Repositories</div>
-                    <div class="nav-button" data-target="certifications">Certifications</div>
-                    <div class="nav-button" data-target="spotify">Music</div>
-                </nav>
-                 <div id="audio-controls">
-                    <button id="play-pause-btn">▶</button>
-                </div>
-            </aside>
+        <div id="page-wrapper" class="hidden">
             
-            <main class="main-content">
-                <!-- About Me Widget -->
-                <section class="widget" id="about">
-                    <h2 class="widget-title">About Me</h2>
-                    <div class="profile-section">
-                        <img src="https://placehold.co/120x120/0a192f/64ffda?text=M" alt="Profile Picture" class="profile-pic">
-                        <p>
-                            I'm currently pursuing a Bachelor of Science in Computer Science at Laguna College of Business and Arts.
-                            I’m a creative by nature, a student leader by responsibility, and a developer in progress. I believe that when used thoughtfully, technology can help solve real problems and make meaningful changes.
-                        </p>
-                    </div>
-                </section>
+            <!-- Audio element -->
+            <audio id="background-audio" loop>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            </audio>
 
-                <!-- Connect Widget -->
-                <section class="widget hidden" id="connect">
-                    <h2 class="widget-title">Connect</h2>
-                    <div class="connect-buttons">
-                        <a href="https://www.facebook.com/mikeordenes1" class="connect-button" target="_blank">
-                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
-                            Facebook
-                        </a>
-                        <a href="https://www.linkedin.com/in/michael-ordenes/" class="connect-button" target="_blank">
-                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                            LinkedIn
-                        </a>
-                        <a href="https://github.com/x64emkei" class="connect-button" target="_blank">
-                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                            GitHub
-                        </a>
-                        <a href="mailto:mkordenes88@gmail.com" class="connect-button">
-                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
-                            Email
-                        </a>
+            <div class="global-top-bar">
+                <div id="time-date"></div>
+                <div class="marquee">
+                    <div class="marquee-content">
+                        Welcome to the homepage of emkei_x64... Exploring the intersection of retro aesthetics and modern technology...
                     </div>
-                </section>
-
-                <!-- Repositories Widget -->
-                <section class="widget hidden" id="repositories">
-                    <h2 class="widget-title">Repositories</h2>
-                    <div class="repo-container">
-                        <div class="repo-box">
-                            <h3><a href="#" target="_blank">ASUS X507UAR Hackintosh</a></h3>
-                            <p>Run macOS on non-Apple hardware (of course).</p>
-                        </div>
-                        <div class="repo-box">
-                            <h3><a href="#" target="_blank">LCBA PVMOCV Infosite</a></h3>
-                            <p>Interactive online tool to remember LCBA PVMOCV.</p>
-                        </div>
-                         <div class="repo-box">
-                            <h3><a href="#" target="_blank">Retro-Futura Homepage</a></h3>
-                            <p>The code for this very landing page. Built with love and nostalgia.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Certifications Widget -->
-                <section class="widget hidden" id="certifications">
-                    <h2 class="widget-title">Certifications</h2>
-                    <div class="cert-container">
-                        <div class="cert-badge">
-                            <img src="mysix_sigma.png" alt="Six Sigma Badge" onerror="this.onerror=null;this.src='https://placehold.co/120x120/0a192f/8892b0?text=Six+Sigma';">
-                            <p>Certified Six Sigma White Belt</p>
-                        </div>
-                        <div class="cert-badge">
-                            <img src="mybadge_C1.png" alt="EF SET Badge" onerror="this.onerror=null;this.src='https://placehold.co/120x120/0a192f/8892b0?text=EF+SET';">
-                            <p>EF SET C1 Advanced</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Spotify Widget -->
-                <section class="widget hidden" id="spotify">
-                    <h2 class="widget-title">Music</h2>
-                    <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                </section>
-                
-            </main>
-        </div>
-        
-        <div class="global-footer">
-            <div class="footer-copyright">
-                2025 &copy; emkei_x64 (Michael Ordenes)<br>
-                All Rights Reserved<br>
-                <div class="made-with-line">
-                    <span>MADE WITH AI</span>
-                    <!-- HTML5 Icon -->
-                    <svg viewBox="0 0 128 128"><path fill="#E34F26" d="M10.9,0h106.1l-10.1,114.3l-42.9,12.2l-43-12.2L10.9,0z"/><path fill="#F16529" d="M64,12.2v105.4l36.2-10.3L109.3,12.2H64z"/><path fill="#EBEBEB" d="M64,26.7H39.3l1.7,19.5H64V26.7z M38.2,50.8l2.3,26.1l23.5,6.3v20.4l-36.2-9.8l-2.5-27.9L22,34.1h42V50.8z"/><path fill="#FFF" d="M64,26.7v19.5h26.3l-2.5,28.4l-23.8,6.3v20.4l36.2-9.8l5-55.8H64z"/></svg>
-                    <!-- CSS3 Icon -->
-                    <svg viewBox="0 0 128 128"><path fill="#1572B6" d="M10.9,0h106.1l-10.1,114.3l-42.9,12.2l-43-12.2L10.9,0z"/><path fill="#33A9DC" d="M64,12.2v105.4l36.2-10.3L109.3,12.2H64z"/><path fill="#EBEBEB" d="M38.2,50.8l2.3,26.1l23.5,6.3v20.4l-36.2-9.8l-2.5-27.9L22,34.1h42V50.8z"/><path fill="#FFF" d="M64,50.8v19.5h23.8l-2.2,24.3l-21.6,5.8v20.4l36.2-9.8l3.6-40.2H64z M89.4,34.1l1.7-19.5H64v19.5H89.4z"/></svg>
-                    <!-- JS Icon -->
-                    <svg viewBox="0 0 128 128"><path fill="#F7DF1E" d="M0,0h128v128H0V0z"/><path d="M111.2,98.5c-1.1,4.2-3.3,7.9-6.9,10.6c-4.4,3.3-9.9,5-16.5,5c-7.1,0-12.6-1.9-16.4-5.6 c-3.8-3.7-5.8-8.8-5.8-15.2c0-6.4,2.1-11.7,6.2-15.8c4.1-4.1,9.6-6.2,16.6-6.2c6.5,0,11.5,1.8,15.1,5.4 c3.6,3.6,5.6,8.2,5.6,13.9c0,1.8-0.2,3.4-0.5,4.8h-31.9c0.3,4.1,2.1,7.2,5.4,9.3c3.3,2.1,7.1,3.2,11.5,3.2 c4.8,0,8.8-1.1,12.1-3.4c3.3-2.3,5.4-5.5,6.4-9.6H111.2z M109.1,84.9c-0.3-3.6-1.9-6.5-4.8-8.6c-2.9-2.1-6.5-3.2-10.8-3.2 c-4.5,0-8.2,1.2-10.9,3.6c-2.7,2.4-4.2,5.8-4.5,10.1h31V84.9z"/><path d="M49.8,114.1c-4.6,0-8.5-1.1-11.6-3.4c-3.1-2.3-5.1-5.4-6-9.4H49c0.2,2.3,1.1,4.1,2.7,5.3 c1.6,1.2,3.6,1.8,6.1,1.8c2.8,0,5-0.7,6.6-2.2c1.6-1.5,2.4-3.5,2.4-6.1c0-2.4-0.7-4.4-2.2-5.9c-1.5-1.5-3.8-2.3-6.8-2.3h-4.2 v-11.3h4c3.3,0,5.8-0.7,7.5-2.2c1.7-1.5,2.5-3.5,2.5-6c0-2.4-0.8-4.3-2.3-5.7c-1.5-1.4-3.6-2.1-6.2-2.1c-2.2,0-4,0.6-5.4,1.8 c-1.4,1.2-2.3,2.9-2.6,5.1h-16.8c0.3-4.4,2.4-8,6.2-10.8c3.8-2.8,8.6-4.2,14.4-4.2c6.1,0,11.2,1.6,15.1,4.8 c3.9,3.2,5.9,7.5,5.9,12.9c0,4.1-1.3,7.5-3.8,10.1c-2.5,2.6-5.9,4.2-10.1,4.8v0.5c4.8,0.5,8.7,2.3,11.7,5.4 c3,3.1,4.5,7.1,4.5,12.1c0,5.7-2.1,10.3-6.2,13.7C61.4,112.4,56.1,114.1,49.8,114.1z"/></svg>
-                    - THE RIGHT WAY
                 </div>
             </div>
-            <div class="retro-buttons-container">
-                <a href="https://matias.me/nsfw/" target="_blank">
-                    <img src="https://cyber.dabamos.de/88x31/no.gif" alt="NSFW Link">
-                </a>
-                <img src="https://cyber.dabamos.de/88x31/hicolor.gif" alt="Best viewed in Hi-Colors">
-                <a href="https://anlucas.neocities.org/noteoth2.gif" target="_blank">
-                    <img src="https://anlucas.neocities.org/noteoth2.gif" alt="Made with Notepad">
-                </a>
+
+            <div class="main-container">
+                <aside class="sidebar">
+                    <div class="sidebar-logo-container">
+                        <img src="x64.png" alt="Logo" class="sidebar-logo" onerror="this.onerror=null;this.src='https://placehold.co/180x75/020c1b/64ffda?text=emkei_x64';">
+                    </div>
+                    <hr class="sidebar-divider">
+                    <nav class="nav-buttons-container">
+                        <div class="nav-button active" data-target="about">About</div>
+                        <div class="nav-button" data-target="connect">Connect</div>
+                        <div class="nav-button" data-target="repositories">Repositories</div>
+                        <div class="nav-button" data-target="certifications">Certifications</div>
+                        <div class="nav-button" data-target="spotify">Music</div>
+                    </nav>
+                     <div id="audio-controls">
+                        <button id="play-pause-btn">▶</button>
+                    </div>
+                </aside>
+                
+                <main class="main-content">
+                    <!-- About Me Widget -->
+                    <section class="widget" id="about">
+                        <h2 class="widget-title">About Me</h2>
+                        <div class="profile-section">
+                            <img src="https://placehold.co/120x120/0a192f/64ffda?text=M" alt="Profile Picture" class="profile-pic">
+                            <p>
+                                I'm currently pursuing a Bachelor of Science in Computer Science at Laguna College of Business and Arts.
+                                I’m a creative by nature, a student leader by responsibility, and a developer in progress. I believe that when used thoughtfully, technology can help solve real problems and make meaningful changes.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Connect Widget -->
+                    <section class="widget hidden" id="connect">
+                        <h2 class="widget-title">Connect</h2>
+                        <div class="connect-buttons">
+                            <a href="https://www.facebook.com/mikeordenes1" class="connect-button" target="_blank">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                                Facebook
+                            </a>
+                            <a href="https://www.linkedin.com/in/michael-ordenes/" class="connect-button" target="_blank">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                LinkedIn
+                            </a>
+                            <a href="https://github.com/x64emkei" class="connect-button" target="_blank">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                GitHub
+                            </a>
+                            <a href="mailto:mkordenes88@gmail.com" class="connect-button">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+                                Email
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- Repositories Widget -->
+                    <section class="widget hidden" id="repositories">
+                        <h2 class="widget-title">Repositories</h2>
+                        <div class="repo-container">
+                            <div class="repo-box">
+                                <h3><a href="#" target="_blank">ASUS X507UAR Hackintosh</a></h3>
+                                <p>Run macOS on non-Apple hardware (of course).</p>
+                            </div>
+                            <div class="repo-box">
+                                <h3><a href="#" target="_blank">LCBA PVMOCV Infosite</a></h3>
+                                <p>Interactive online tool to remember LCBA PVMOCV.</p>
+                            </div>
+                             <div class="repo-box">
+                                <h3><a href="#" target="_blank">Retro-Futura Homepage</a></h3>
+                                <p>The code for this very landing page. Built with love and nostalgia.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Certifications Widget -->
+                    <section class="widget hidden" id="certifications">
+                        <h2 class="widget-title">Certifications</h2>
+                        <div class="cert-container">
+                            <div class="cert-badge">
+                                <img src="mysix_sigma.png" alt="Six Sigma Badge" onerror="this.onerror=null;this.src='https://placehold.co/120x120/0a192f/8892b0?text=Six+Sigma';">
+                                <p>Certified Six Sigma White Belt</p>
+                            </div>
+                            <div class="cert-badge">
+                                <img src="mybadge_C1.png" alt="EF SET Badge" onerror="this.onerror=null;this.src='https://placehold.co/120x120/0a192f/8892b0?text=EF+SET';">
+                                <p>EF SET C1 Advanced</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Spotify Widget -->
+                    <section class="widget hidden" id="spotify">
+                        <h2 class="widget-title">Music</h2>
+                        <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </section>
+                    
+                </main>
+            </div>
+            
+            <div class="global-footer">
+                <div class="footer-copyright">
+                    2025 &copy; emkei_x64 (Michael Ordenes)<br>
+                    All Rights Reserved<br>
+                    <div class="made-with-line">
+                        <span>MADE WITH AI</span>
+                        <!-- HTML5 Icon -->
+                        <svg viewBox="0 0 128 128"><path fill="#E34F26" d="M10.9,0h106.1l-10.1,114.3l-42.9,12.2l-43-12.2L10.9,0z"/><path fill="#F16529" d="M64,12.2v105.4l36.2-10.3L109.3,12.2H64z"/><path fill="#EBEBEB" d="M64,26.7H39.3l1.7,19.5H64V26.7z M38.2,50.8l2.3,26.1l23.5,6.3v20.4l-36.2-9.8l-2.5-27.9L22,34.1h42V50.8z"/><path fill="#FFF" d="M64,26.7v19.5h26.3l-2.5,28.4l-23.8,6.3v20.4l36.2-9.8l5-55.8H64z"/></svg>
+                        <!-- CSS3 Icon -->
+                        <svg viewBox="0 0 128 128"><path fill="#1572B6" d="M10.9,0h106.1l-10.1,114.3l-42.9,12.2l-43-12.2L10.9,0z"/><path fill="#33A9DC" d="M64,12.2v105.4l36.2-10.3L109.3,12.2H64z"/><path fill="#EBEBEB" d="M38.2,50.8l2.3,26.1l23.5,6.3v20.4l-36.2-9.8l-2.5-27.9L22,34.1h42V50.8z"/><path fill="#FFF" d="M64,50.8v19.5h23.8l-2.2,24.3l-21.6,5.8v20.4l36.2-9.8l3.6-40.2H64z M89.4,34.1l1.7-19.5H64v19.5H89.4z"/></svg>
+                        <!-- JS Icon -->
+                        <svg viewBox="0 0 128 128"><path fill="#F7DF1E" d="M0,0h128v128H0V0z"/><path d="M111.2,98.5c-1.1,4.2-3.3,7.9-6.9,10.6c-4.4,3.3-9.9,5-16.5,5c-7.1,0-12.6-1.9-16.4-5.6 c-3.8-3.7-5.8-8.8-5.8-15.2c0-6.4,2.1-11.7,6.2-15.8c4.1-4.1,9.6-6.2,16.6-6.2c6.5,0,11.5,1.8,15.1,5.4 c3.6,3.6,5.6,8.2,5.6,13.9c0,1.8-0.2,3.4-0.5,4.8h-31.9c0.3,4.1,2.1,7.2,5.4,9.3c3.3,2.1,7.1,3.2,11.5,3.2 c4.8,0,8.8-1.1,12.1-3.4c3.3-2.3,5.4-5.5,6.4-9.6H111.2z M109.1,84.9c-0.3-3.6-1.9-6.5-4.8-8.6c-2.9-2.1-6.5-3.2-10.8-3.2 c-4.5,0-8.2,1.2-10.9,3.6c-2.7,2.4-4.2,5.8-4.5,10.1h31V84.9z"/><path d="M49.8,114.1c-4.6,0-8.5-1.1-11.6-3.4c-3.1-2.3-5.1-5.4-6-9.4H49c0.2,2.3,1.1,4.1,2.7,5.3 c1.6,1.2,3.6,1.8,6.1,1.8c2.8,0,5-0.7,6.6-2.2c1.6-1.5,2.4-3.5,2.4-6.1c0-2.4-0.7-4.4-2.2-5.9c-1.5-1.5-3.8-2.3-6.8-2.3h-4.2 v-11.3h4c3.3,0,5.8-0.7,7.5-2.2c1.7-1.5,2.5-3.5,2.5-6c0-2.4-0.8-4.3-2.3-5.7c-1.5-1.4-3.6-2.1-6.2-2.1c-2.2,0-4,0.6-5.4,1.8 c-1.4,1.2-2.3,2.9-2.6,5.1h-16.8c0.3-4.4,2.4-8,6.2-10.8c3.8-2.8,8.6-4.2,14.4-4.2c6.1,0,11.2,1.6,15.1,4.8 c3.9,3.2,5.9,7.5,5.9,12.9c0,4.1-1.3,7.5-3.8,10.1c-2.5,2.6-5.9,4.2-10.1,4.8v0.5c4.8,0.5,8.7,2.3,11.7,5.4 c3,3.1,4.5,7.1,4.5,12.1c0,5.7-2.1,10.3-6.2,13.7C61.4,112.4,56.1,114.1,49.8,114.1z"/></svg>
+                        - THE RIGHT WAY
+                    </div>
+                </div>
+                <div class="retro-buttons-container">
+                    <a href="https://matias.me/nsfw/" target="_blank">
+                        <img src="https://cyber.dabamos.de/88x31/no.gif" alt="NSFW Link">
+                    </a>
+                    <img src="https://cyber.dabamos.de/88x31/hicolor.gif" alt="Best viewed in Hi-Colors">
+                    <a href="https://anlucas.neocities.org/noteoth2.gif" target="_blank">
+                        <img src="https://anlucas.neocities.org/noteoth2.gif" alt="Made with Notepad">
+                    </a>
+                </div>
             </div>
         </div>
         
@@ -623,7 +662,7 @@
         
         setTimeout(() => {
             if (loader) {
-                loader.style.opacity = '0';
+                loader.classList.add('fade-out');
                 setTimeout(() => {
                     loader.style.display = 'none';
                 }, 500);
