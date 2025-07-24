@@ -28,7 +28,6 @@
             color: var(--text-light);
             margin: 0;
             padding: 20px;
-            perspective: 1500px;
         }
 
         .hidden {
@@ -83,44 +82,58 @@
           to {transform:translate(calc(100%/3))}
         }
 
-        /* Marquee */
-        .marquee {
-            background-color: #000;
-            color: var(--accent-secondary);
-            padding: 5px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        .marquee-content {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 30s linear infinite;
-        }
-        @keyframes marquee {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* Main container */
-        .main-container {
+        /* New Page Structure */
+        #page-wrapper {
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 900px;
+            max-width: 960px; /* Enlarged */
             margin: 0 auto;
             background-color: var(--bg-dark);
             box-shadow: 0 10px 50px rgba(0, 128, 128, 0.2), 0 0 0 1px var(--border-light);
             border-radius: 8px;
         }
         
+        .global-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: var(--bg-darkest);
+            border-bottom: 1px solid var(--border-light);
+            border-radius: 8px 8px 0 0;
+            gap: 20px;
+        }
+        
+        .global-footer {
+            padding: 20px;
+            background-color: var(--bg-darkest);
+            border-top: 1px solid var(--border-light);
+            border-radius: 0 0 8px 8px;
+            text-align: center;
+        }
+        .footer-copyright {
+            font-size: 0.75rem;
+            line-height: 1.5;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        /* Main container */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
         @media (max-width: 768px) {
             body {
-                perspective: none;
                 padding: 0;
             }
-            .main-container {
+            #page-wrapper {
                 margin: 0;
+                border-radius: 0;
+            }
+            .global-top-bar, .global-footer {
                 border-radius: 0;
             }
         }
@@ -133,12 +146,9 @@
 
         /* Sidebar */
         .sidebar {
-            background-color: var(--bg-darkest);
-            padding: 20px;
+            background-color: var(--bg-dark);
+            padding: 20px 0; /* Adjusted padding */
             border-bottom: 1px solid var(--border-light);
-            border-radius: 8px 8px 0 0;
-            display: flex;
-            flex-direction: column;
         }
         @media (min-width: 768px) {
             .sidebar {
@@ -146,12 +156,11 @@
                 flex-shrink: 0;
                 border-right: 1px solid var(--border-light);
                 border-bottom: none;
-                border-radius: 8px 0 0 8px;
             }
         }
         
         .sidebar-logo-container {
-            padding-bottom: 15px;
+            padding: 0 20px 15px 20px;
             text-align: center;
         }
         .sidebar-logo {
@@ -172,6 +181,7 @@
         #audio-controls {
             text-align: center;
             margin-top: 20px;
+            padding: 0 20px;
         }
         #audio-controls button {
             background-color: var(--bg-medium);
@@ -187,41 +197,67 @@
         .main-content {
             padding: 20px;
             flex-grow: 1;
+            position: relative;
+            min-height: 600px; /* Fixed height */
+            overflow-y: auto; /* Scroll for overflow */
         }
         @media (min-width: 768px) {
             .main-content {
                 padding: 30px;
             }
         }
+        
+        #time-date {
+            font-size: 0.8rem;
+            color: var(--text-dark);
+            white-space: nowrap;
+        }
+        .marquee {
+            color: var(--accent-primary);
+            flex-grow: 1;
+            text-align: right;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
 
         /* 3D Navigation Buttons */
         .nav-button {
             display: block;
             width: 100%;
-            padding: 12px;
-            margin-bottom: 12px; /* Explicitly set margin for spacing */
+            padding: 12px 20px;
             background: linear-gradient(to bottom, #173b60, #132f4c);
             color: var(--text-light);
             text-decoration: none;
             text-align: center;
             font-weight: 500;
-            border: 1px solid var(--border-light);
-            border-radius: 6px;
-            box-shadow: 0 4px 0 var(--button-shadow);
-            transition: all 0.1s ease-in-out;
+            border: none;
+            border-top: 1px solid var(--border-light);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: all 0.2s ease-in-out;
             position: relative;
-            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            box-sizing: border-box;
+            cursor: pointer;
         }
-        .nav-buttons-container a:last-child {
-            margin-bottom: 0; /* Remove margin from last button */
+        .nav-buttons-container .nav-button:first-child {
+            border-top: none;
         }
         .nav-button:hover {
             background: linear-gradient(to bottom, #1c4670, #173b60);
             color: var(--accent-secondary);
         }
-        .nav-button:active {
-            transform: translateY(3px);
-            box-shadow: 0 1px 0 var(--button-shadow);
+        .nav-button.active {
+            background: var(--bg-darkest);
+            color: var(--accent-secondary);
         }
 
 
@@ -273,13 +309,14 @@
 
         /* Connect Buttons */
         .connect-buttons {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 15px;
         }
         .connect-button {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             padding: 10px 15px;
             background-color: transparent;
@@ -342,35 +379,34 @@
         }
         .cert-badge {
             text-align: center;
+            transition: all 0.2s ease-in-out;
+        }
+        .cert-badge:hover {
+            transform: scale(1.05);
         }
         .cert-badge img {
             border: 1px solid var(--border-light);
             padding: 10px;
             background: var(--bg-darkest);
+            transition: all 0.2s ease-in-out;
+        }
+        .cert-badge:hover img {
+            box-shadow: 0 0 15px rgba(0, 128, 128, 0.5);
         }
         .cert-badge p {
             margin-top: 8px;
             font-size: 0.8rem;
             color: var(--text-dark);
         }
-
-        /* Footer Content Widget */
-        .page-footer-content {
-            text-align: center;
-            font-size: 0.75rem;
-            line-height: 1.5;
-            color: var(--text-dark);
-        }
         
         .retro-buttons-container {
-            padding: 20px 0;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
         }
         .retro-buttons-container > * {
-            margin: 5px; /* Replaced gap with margin for better compatibility */
+            margin: 5px;
         }
 
     </style>
@@ -382,30 +418,33 @@
     </div>
 
     <div id="page-wrapper" class="hidden">
-        <!-- Marquee -->
-        <div class="marquee">
-            <div class="marquee-content">
-                Welcome to the homepage of emkei_x64... Exploring the intersection of retro aesthetics and modern technology... Now loading... Please stand by...
-            </div>
-        </div>
-
+        
         <!-- Audio element -->
         <audio id="background-audio" loop>
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
         </audio>
 
+        <div class="global-top-bar">
+            <div id="time-date"></div>
+            <div class="marquee">
+                <div class="marquee-content">
+                    Welcome to the homepage of emkei_x64... Exploring the intersection of retro aesthetics and modern technology...
+                </div>
+            </div>
+        </div>
+
         <div class="main-container">
             <aside class="sidebar">
                 <div class="sidebar-logo-container">
-                    <img src="https://placehold.co/100x40/020c1b/64ffda?text=emkei_x64" alt="Logo" class="sidebar-logo">
+                    <img src="x64.png" alt="Logo" class="sidebar-logo" onerror="this.onerror=null;this.src='https://placehold.co/100x40/020c1b/64ffda?text=emkei_x64';">
                 </div>
                 <hr class="sidebar-divider">
                 <nav class="nav-buttons-container">
-                    <a href="#about" class="nav-button">About</a>
-                    <a href="#connect" class="nav-button">Connect</a>
-                    <a href="#repositories" class="nav-button">Repositories</a>
-                    <a href="#certifications" class="nav-button">Certifications</a>
-                    <a href="#spotify" class="nav-button">Music</a>
+                    <div class="nav-button active" data-target="about">About</div>
+                    <div class="nav-button" data-target="connect">Connect</div>
+                    <div class="nav-button" data-target="repositories">Repositories</div>
+                    <div class="nav-button" data-target="certifications">Certifications</div>
+                    <div class="nav-button" data-target="spotify">Music</div>
                 </nav>
                  <div id="audio-controls">
                     <button id="play-pause-btn">▶</button>
@@ -426,7 +465,7 @@
                 </section>
 
                 <!-- Connect Widget -->
-                <section class="widget" id="connect">
+                <section class="widget hidden" id="connect">
                     <h2 class="widget-title">Connect</h2>
                     <div class="connect-buttons">
                         <a href="https://www.facebook.com/mikeordenes1" class="connect-button" target="_blank">
@@ -441,11 +480,15 @@
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                             GitHub
                         </a>
+                        <a href="mailto:mkordenes88@gmail.com" class="connect-button">
+                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+                            Email
+                        </a>
                     </div>
                 </section>
 
                 <!-- Repositories Widget -->
-                <section class="widget" id="repositories">
+                <section class="widget hidden" id="repositories">
                     <h2 class="widget-title">Repositories</h2>
                     <div class="repo-container">
                         <div class="repo-box">
@@ -464,44 +507,44 @@
                 </section>
 
                 <!-- Certifications Widget -->
-                <section class="widget" id="certifications">
+                <section class="widget hidden" id="certifications">
                     <h2 class="widget-title">Certifications</h2>
                     <div class="cert-container">
                         <div class="cert-badge">
-                            <img src="https://placehold.co/120x120/0a192f/8892b0?text=Six+Sigma" alt="Six Sigma Badge">
+                            <img src="mysix_sigma.png" alt="Six Sigma Badge" onerror="this.onerror=null;this.src='https://placehold.co/120x120/0a192f/8892b0?text=Six+Sigma';">
                             <p>Certified Six Sigma White Belt</p>
                         </div>
                         <div class="cert-badge">
-                            <img src="https://placehold.co/120x120/0a192f/8892b0?text=EF+SET" alt="EF SET Badge">
+                            <img src="mybadge_C1.png" alt="EF SET Badge" onerror="this.onerror=null;this.src='https://placehold.co/120x120/0a192f/8892b0?text=EF+SET';">
                             <p>EF SET C1 Advanced</p>
                         </div>
                     </div>
                 </section>
 
                 <!-- Spotify Widget -->
-                <section class="widget" id="spotify">
+                <section class="widget hidden" id="spotify">
                     <h2 class="widget-title">Music</h2>
                     <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </section>
                 
-                <!-- Footer Content Widget -->
-                <section class="widget">
-                    <div class="page-footer-content">
-                        2025 (c) emkei_x64 (Michael Ordenes)<br>
-                        All Rights Reserved<br>
-                        <span style="color: var(--accent-primary);">MADE WITH AI - HTML - CSS - JS - THE RIGHT WAY</span>
-                    </div>
-                </section>
             </main>
         </div>
         
-        <!-- Retro Buttons -->
-        <div class="retro-buttons-container">
-            <a href="https://matias.me/nsfw/" target="_blank">
-                <img src="https://cyber.dabamos.de/88x31/no.gif" alt="NSFW Link">
-            </a>
-            <img src="https://cyber.dabamos.de/88x31/hicolor.gif" alt="Best viewed in Hi-Colors">
-            <img src="https://cyber.dabamos.de/88x31/noteoth2.gif" alt="Made with Notepad">
+        <div class="global-footer">
+            <div class="footer-copyright">
+                2025 (c) emkei_x64 (Michael Ordenes)<br>
+                All Rights Reserved<br>
+                <span style="color: var(--accent-primary);">MADE WITH AI - HTML - CSS - JS - THE RIGHT WAY</span>
+            </div>
+            <div class="retro-buttons-container">
+                <a href="https://matias.me/nsfw/" target="_blank">
+                    <img src="https://cyber.dabamos.de/88x31/no.gif" alt="NSFW Link">
+                </a>
+                <img src="https://cyber.dabamos.de/88x31/hicolor.gif" alt="Best viewed in Hi-Colors">
+                <a href="https://anlucas.neocities.org/noteoth2.gif" target="_blank">
+                    <img src="https://anlucas.neocities.org/noteoth2.gif" alt="Made with Notepad">
+                </a>
+            </div>
         </div>
     </div>
 
@@ -522,6 +565,25 @@
             }
         }, 3000);
 
+        // --- Time and Date ---
+        function updateTime() {
+            const timeEl = document.getElementById('time-date');
+            if (timeEl) {
+                const now = new Date();
+                const options = { 
+                    weekday: 'short', 
+                    month: 'short', 
+                    day: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit' 
+                };
+                timeEl.textContent = now.toLocaleDateString('en-US', options);
+            }
+        }
+        updateTime();
+        setInterval(updateTime, 1000); // Update every second
+
         // --- Audio Controls ---
         const audio = document.getElementById('background-audio');
         const playPauseBtn = document.getElementById('play-pause-btn');
@@ -535,6 +597,32 @@
                 playPauseBtn.textContent = '▶';
             }
         });
+
+        // --- Content Switching Logic ---
+        const navButtons = document.querySelectorAll('.nav-button');
+        const widgets = document.querySelectorAll('.main-content .widget');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.target;
+
+                // Hide all widgets
+                widgets.forEach(widget => {
+                    widget.classList.add('hidden');
+                });
+
+                // Show the target widget
+                const targetWidget = document.getElementById(targetId);
+                if (targetWidget) {
+                    targetWidget.classList.remove('hidden');
+                }
+
+                // Update active state for buttons
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+
     </script>
 </body>
 </html>
